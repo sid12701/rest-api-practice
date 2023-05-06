@@ -3,6 +3,8 @@ import { User } from "../../models/index.js";
 import customErrorHandler from "../../services/customErrorHandler.js";
 import bcrypt from "bcrypt";
 import JwtService from "../../services/JwtService.js";
+import { REFRESH_SECRET } from "../../config/index.js";
+import RefreshToken from "../../models/refreshToken.js";
 const loginController = {
   async login(req, res, next) {
     const loginSchema = Joi.object({
@@ -36,7 +38,11 @@ const loginController = {
       _id: user._id,
       role: user.role,
     });
-    res.json({ access_token });
+    const refresh_token = JwtService.sign({_id:user._id,role:user.role},'1y',REFRESH_SECRET);
+    //database whitelist
+    await RefreshToken.create({token: refresh_token});
+
+    res.json({ access_token,refresh_token });
   },
 };
 
