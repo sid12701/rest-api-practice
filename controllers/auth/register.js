@@ -1,10 +1,10 @@
+import {User,RefreshToken} from '../../models/index.js';
 import Joi from 'joi';
 import customErrorHandler from '../../services/customErrorHandler.js';
-import {User} from "../../models/index.js";
 import bcrypt from 'bcrypt';
 import JwtService from '../../services/JwtService.js';
 import {REFRESH_SECRET} from '../../config/index.js';
-import RefreshToken from '../../models/refreshToken.js';
+
 
 const  registerController = {
     async register(req,res,next){

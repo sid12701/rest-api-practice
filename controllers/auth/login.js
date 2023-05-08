@@ -1,10 +1,9 @@
 import Joi from "joi";
-import { User } from "../../models/index.js";
+import { User ,RefreshToken} from "../../models/index.js";
 import customErrorHandler from "../../services/customErrorHandler.js";
 import bcrypt from "bcrypt";
 import JwtService from "../../services/JwtService.js";
 import { REFRESH_SECRET } from "../../config/index.js";
-import RefreshToken from "../../models/refreshToken.js";
 const loginController = {
   async login(req, res, next) {
     const loginSchema = Joi.object({
@@ -44,6 +43,27 @@ const loginController = {
 
     res.json({ access_token,refresh_token });
   },
+
+  async logout(req,res,next){
+    try{ 
+      const refreshSchema = Joi.object({
+        refresh_token: Joi.string().required(),
+    });
+    const { error } = refreshSchema.validate(req.body);
+
+    if (error) {
+        return next(error);
+    }
+
+      await RefreshToken.deleteOne({token: req.body.refresh_token});
+    }
+    catch(err){
+      return next(new Error("Something went wrong" + err.message))
+    }
+    res.json({message:"Logged out successfully"});
+    console.log("hello")
+  }
+
 };
 
 export default loginController;
