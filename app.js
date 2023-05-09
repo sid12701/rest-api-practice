@@ -11,6 +11,7 @@ global.appRoot = path.dirname(new URL(import.meta.url).pathname);app.use(express
 app.use(express.urlencoded({extended:false}))
 
 app.use('/api',routes);
+app.use('/uploads',express.static('uploads'));
 
 mongoose.connect(DB_URL, {useNewUrlParser: true, useUnifiedTopology: true,family:4}).then(()=>{
     console.log('Database connected');
