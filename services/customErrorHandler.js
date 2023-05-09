@@ -20,6 +20,9 @@ class customErrorHandler extends Error{
     static unAuthorized(message="UnAuthorized"){
         return new customErrorHandler(401,message);
     }
+    static serverError(message="Internal Server Error"){
+        return new customErrorHandler(500,message);
+    }
 
 }
 

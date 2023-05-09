@@ -5,8 +5,10 @@ import mongoose from 'mongoose';
 import routes from './routes/index.js';
 import errorHandler from './middlewares/errorHandler.js';
 import { DB_URL } from './config/index.js';
+import path from 'path';
 const app = express();
-app.use(express.json());
+global.appRoot = path.dirname(new URL(import.meta.url).pathname);app.use(express.json());
+app.use(express.urlencoded({extended:false}))
 
 app.use('/api',routes);
 
