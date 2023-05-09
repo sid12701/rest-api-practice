@@ -6,15 +6,15 @@ import loginController from '../controllers/auth/login.js';
 import userController from '../controllers/auth/user.js';
 import refreshController from '../controllers/auth/refresh.js';
 import productController from '../controllers/productController.js';
-
+import admin from '../middlewares/admin.js';
 
 router.post('/register',registerController.register);
 router.post('/login',loginController.login);
 router.get('/me',auth, userController.me);
 router.post('/refresh',refreshController.refresh);
 router.post('/logout',auth,loginController.logout);
-router.post('/products',productController.store)
-
+router.post('/products',[auth,admin],productController.store);
+router.put('/products',[auth,admin],productController.update);
 export default router;
 
 
